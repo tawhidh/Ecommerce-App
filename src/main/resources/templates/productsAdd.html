@@ -6,21 +6,18 @@
 	content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-	crossorigin="anonymous">
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 <link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
-	integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ"
-	crossorigin="anonymous">
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+<link th:href="@{/css/custom.css}" rel="stylesheet">
 <title>Document</title>
 </head>
 <body>
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+	<nav class="navbar navbar-expand-lg smart-scroll admin-nav">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="#"> <img
-				th:src="@{/images/logo.png}" src="../static/images/logo.png"
-				width="auto" height="40" class="d-inline-block align-top" alt="" />
+			<a class="navbar-brand" th:href="@{/admin}" href="#"> <img
+				th:src="@{/images/weblogo.png}" src="../static/images/weblogo.png"
+				width="auto" height="20" class="d-inline-block align-top" alt="" />
 			</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
 				data-target="#navbarSupportedContent"
@@ -30,19 +27,51 @@
 			</button>
 
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav mr-auto"></ul>
-				<ul class="navbar-nav">
-					<li class="nav-item active"><a class="nav-link"
-						th:href="@{/admin}" href="#">admin-home</a></li>
-					<li class="nav-item active"><a class="nav-link"
-						th:href="@{/logout}" href="#">logout</a></li>
 
+				<ul class="navbar-nav  ml-auto nav-menu-item">
+					<!-- profile icon -->
+					<li class="nav-item active dropdown"><a class="nav-link"
+						th:href="@{/shop}" href="#" id="navbarDropdown" role="button"
+						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<i class="fa-solid fa-user"></i>
+					</a>
+						<div class="dropdown-menu dropdown-menu-right"
+							aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" sec:authorize="isAuthenticated()"
+								href="#"><i class="fa-solid fa-circle-user mr-2"></i>Profile</a>
+
+							<a class="dropdown-item" sec:authorize="isAnonymous()"
+								th:href="@{/login}" href="#"><i
+								class="fa-solid fa-user-lock mr-2"></i>Login</a>  <a
+								class="dropdown-item" sec:authorize="isAuthenticated()"
+								th:href="@{/logout}" href="#"><i
+								class="fa-solid fa-right-from-bracket mr-2"></i>Logout</a>
+						</div></li>
 				</ul>
 
 			</div>
 		</div>
 	</nav>
-	<div class="container">
+
+	<br>
+	<br>
+	<!-- Side Navbar -->
+	<div class="sidenav">
+		<ul>
+			<li class="nav-header"><img th:src="@{/images/admin.png}"
+				src="../static/images/admin.png" /></li>
+			<li class="nav-header mt-2 mb-3">Admin</li>
+			<li><a th:href="@{/admin}" href="#"><i class="fa-solid fa-gauge-high"></i>Dashboard</a>
+			</li>
+			<li><a th:href="@{/admin/categories}" href="#"><i class="fa-solid fa-sitemap"></i>Categories</a>
+			</li>
+			<li><a th:href="@{/admin/products}" href="#"><i class="fa-solid fa-box-open"></i>Products</a>
+			</li>
+			<li><a href="#"><i class="fa-solid fa-users"></i>Users</a></li>
+
+		</ul>
+	</div>
+	<div class="admin-home px-5 mt-5">
 		<h3>Add a new Product</h3>
 		<form th:action="@{/admin/products/add}" method="post"
 			th:object="${productDTO}" enctype="multipart/form-data">
@@ -52,13 +81,13 @@
 					<input type="hidden" name="id" th:field="*{id}">
 					<div class="form-group">
 						<label for="name">Name</label> <input type="text"
-							class="form-control" required th:field="*{name}" name="name"
+							class="text-field" required th:field="*{name}" name="name"
 							id="name" placeholder="Enter name">
 
 					</div>
 					<div class="form-group">
 						<label for="category">Select Category</label> <select
-							class="form-control" th:field="*{categoryId}" id="category"
+							class="text-field" th:field="*{categoryId}" id="category"
 							name="category">
 							<option th:each="category :${categories}"
 								th:value="${category.id}" th:text="${category.name}">
@@ -66,17 +95,17 @@
 					</div>
 					<div class="form-group">
 						<label for="price">Price</label> <input type="number"
-							class="form-control" required th:field="*{price}" name="price"
+							class="text-field" required th:field="*{price}" name="price"
 							id="price" placeholder="Price">
 					</div>
 					<div class="form-group">
 						<label for="weight">Weight in grams</label> <input type="number"
-							class="form-control" required th:field="*{weight}" name="weight"
+							class="text-field" required th:field="*{weight}" name="weight"
 							id="weight" placeholder="Weight">
 					</div>
 					<div class="form-group">
 						<label for="description">Product Description</label>
-						<textarea class="form-control" rows="5" th:field="*{description}"
+						<textarea class="text-field" rows="5" th:field="*{description}"
 							name="description" id="description"></textarea>
 					</div>
 				</div>
@@ -88,7 +117,7 @@
 							class="custom-file-label" for="productImage">Choose file</label>
 					</div>
 					<div class="form-group">
-						<img src="#" id="imgPreview" height="100px" width="100px"
+						<img class="text-field" src="#" id="imgPreview" height="100px" width="100px"
 							th:src="@{${'/productImages/' + productDTO.imageName}}"
 							style="margin-top: 20px" alt=" ">
 					</div>
@@ -102,7 +131,7 @@
 
 	<section class="text-center mt-5 py-3 bg-dark text-light">
 		<div class="container">
-			<div class="row">
+			<div class="row copyright">
 				<div class="col">
 					<p>
 						Copyright 2022 &copy; <a href="https://tawhidh.github.io"

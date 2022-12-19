@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.tawhid.demo.global.GlobalData;
 import com.tawhid.demo.model.Role;
@@ -48,4 +49,13 @@ public class LoginController {
 		request.login(user.getEmail(), password); // after register login automatically
 		return "redirect:/";
 	}
+	
+	// different role defaultSuccessUrl
+	@GetMapping("/default")
+    public String defaultAfterLogin(HttpServletRequest request) {
+        if (request.isUserInRole("ROLE_ADMIN")) {
+            return "redirect:/admin/";
+        }
+        return "redirect:/";
+    }
 }

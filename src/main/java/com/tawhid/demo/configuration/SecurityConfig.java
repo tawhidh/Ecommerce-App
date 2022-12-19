@@ -25,7 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 			.authorizeRequests()
-			.antMatchers("/", "/shop/**", "/register").permitAll()
+			.antMatchers("/", "/shop/**", "/register", "/search").permitAll()
 			.antMatchers("/admin/**").hasRole("ADMIN")
 			.anyRequest()
 			.authenticated()
@@ -34,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.loginPage("/login")
 			.permitAll()
 			//.failureUrl("login?error = true")
-			.defaultSuccessUrl("/")
+			.defaultSuccessUrl("/default")
 			.usernameParameter("email")
 			.passwordParameter("password")
 			.and()
